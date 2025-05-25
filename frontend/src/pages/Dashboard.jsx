@@ -137,9 +137,11 @@ const DashboardContent = () => {
             <div className="p-4">
               <div className="flex justify-between items-end">
                 <h3 className="text-sm sm:text-lg font-semibold text-gray-100 mb-4">Contract Balance:</h3>
+
                 <div className="mb-4">
                   <p className="text-gray-100 text-sm sm:text-lg font-light">{Number(contractBalance).toFixed(3)} cUSD</p>
                 </div>
+                
               </div>
 
               <div className="flex gap-2 space-x-2 justify-center items-center">

@@ -43,7 +43,6 @@ const useFundLoan = () => {
 
         const loan = await contract.loansCore(loanId);
         const amountWei = loan.amount;
-        
         const status = await contract.loansStatus(loanId);
 
         if (status.active) {
@@ -109,6 +108,7 @@ const useFundLoan = () => {
         if (txReceipt.status === 1) {
           toast.success("Loan funded successfully");
           return true;
+          
         } else {
           toast.error("Loan funding failed");
         }

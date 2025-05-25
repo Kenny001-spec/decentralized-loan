@@ -89,7 +89,7 @@ Follow the steps below to set up and deploy the project on Celo Alfajores:
    npm run dev
 
 ### 👩‍💻Contribution Guidelines
-We welcome contributions to the Micro-Loan System with Interest! To get started:
+We welcome contributions to LumenVault! To get started:
 
 1. Fork the repository.
 2. Create a new branch for your feature or bug fix:
@@ -102,7 +102,7 @@ We welcome contributions to the Micro-Loan System with Interest! To get started:
    git commit -m "Add your feature description"
    git push origin feature/your-feature-name
 
-4. Open a Pull Request
+4. Open a Pull Request to the staging branch.
 
 
 ### 📝License

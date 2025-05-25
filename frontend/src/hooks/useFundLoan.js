@@ -4,7 +4,7 @@ import { useAppKitAccount, useAppKitNetwork } from "@reown/appkit/react";
 import { toast } from "react-toastify";
 import { ErrorDecoder } from "ethers-decode-error";
 import { Contract, ethers } from "ethers"; // Remove BigNumber import
-import usdtTokenABI from "../ABI/usdtToken.json";
+import cusdTokenABI from "../ABI/cusdToken.json";
 import useSignerOrProvider from "./useSignerOrProvider";
 
 const useFundLoan = () => {
@@ -13,10 +13,10 @@ const useFundLoan = () => {
   const { chainId } = useAppKitNetwork();
   const { signer } = useSignerOrProvider();
 
-  const usdtTokenContractAddress = import.meta.env.VITE_CUSD_CONTRACT_ADDRESS;
+  const cusdTokenContractAddress = import.meta.env.VITE_CUSD_CONTRACT_ADDRESS;
   const lumenVaultContractAddress = import.meta.env.VITE_LUMEN_VAULT_CONTRACT_ADDRESS;
 
-  const usdtContract = new Contract(usdtTokenContractAddress, usdtTokenABI, signer);
+  const cusdContract = new Contract(cusdTokenContractAddress, cusdTokenABI, signer);
 
   return useCallback(
     async (loanId) => {
@@ -33,7 +33,7 @@ const useFundLoan = () => {
         return;
       }
 
-      if (!contract || !usdtContract) {
+      if (!contract || !cusdContract) {
         toast.error("Contract not found");
         return;
       }
@@ -51,7 +51,7 @@ const useFundLoan = () => {
           return;
         }
 
-        const balance = await usdtContract.balanceOf(address);
+        const balance = await cusdContract.balanceOf(address);
 
        
 
@@ -61,12 +61,12 @@ const useFundLoan = () => {
         }
 
       
-        const approveGas = await usdtContract.approve.estimateGas(
+        const approveGas = await cusdContract.approve.estimateGas(
           lumenVaultContractAddress,
           amountWei 
         );
 
-        const approveTx = await usdtContract.approve(lumenVaultContractAddress, amountWei , {
+        const approveTx = await cusdContract.approve(lumenVaultContractAddress, amountWei , {
           gasLimit: (approveGas * BigInt(120)) / BigInt(100),
         });
 
@@ -81,7 +81,7 @@ const useFundLoan = () => {
         }
 
 
-        const allowance = await usdtContract.allowance(address, lumenVaultContractAddress);
+        const allowance = await cusdContract.allowance(address, lumenVaultContractAddress);
 
 
         if (allowance < amountWei) {
@@ -120,7 +120,7 @@ const useFundLoan = () => {
         toast.error(decoded?.message || "Loan funding failed");
       }
     },
-    [contract, address, chainId, usdtContract]
+    [contract, address, chainId, cusdContract]
   );
 };
 

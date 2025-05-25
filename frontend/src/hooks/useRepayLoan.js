@@ -4,18 +4,18 @@ import { useAppKitAccount, useAppKitNetwork } from "@reown/appkit/react";
 import { toast } from "react-toastify";
 import { ErrorDecoder } from "ethers-decode-error";
 import { Contract, ethers, parseUnits } from "ethers";
-import usdtTokenABI from "../ABI/usdtToken.json";
+import cusdTokenABI from "../ABI/cusdToken.json";
 import useSignerOrProvider from "./useSignerOrProvider";
 
 const useRepayLoan = () => {
   const contract = useContractInstance(true);
   const { address } = useAppKitAccount();
   const { chainId } = useAppKitNetwork();
-  const usdtTokenContractAddress = import.meta.env.VITE_CUSD_CONTRACT_ADDRESS;
+  const cusdTokenContractAddress = import.meta.env.VITE_CUSD_CONTRACT_ADDRESS;
   const lumenVaultContractAddress = import.meta.env.VITE_LUMEN_VAULT_CONTRACT_ADDRESS;
 
   const { signer } = useSignerOrProvider();
-  const usdtContract = new Contract(usdtTokenContractAddress, usdtTokenABI, signer);
+  const cusdContract = new Contract(cusdTokenContractAddress, cusdTokenABI, signer);
 
   return useCallback(
     async (loanId, repayment) => {
@@ -30,7 +30,7 @@ const useRepayLoan = () => {
         return;
       }
 
-      if (!contract || !usdtContract) {
+      if (!contract || !cusdContract) {
         toast.error("Contract not found");
         return;
       }
@@ -46,7 +46,7 @@ const useRepayLoan = () => {
         loanId: loanId.toString(),
         repayment: repayment,
         contract: contract.target,
-        usdtContract: usdtContract.target,
+        cusdContract: cusdContract.target,
         chainId,
         user: address,
       });
@@ -65,10 +65,10 @@ const useRepayLoan = () => {
 
         console.log({repaymenInNum, bigIntRepayment, repayment})
       
-        // Approve mUSDT transfer
+        // Approve cUSD transfer
         let estimatedGas;
         try {
-          estimatedGas = await usdtContract.approve.estimateGas(
+          estimatedGas = await cusdContract.approve.estimateGas(
             lumenVaultContractAddress,
             bigIntRepayment
           );
@@ -78,7 +78,7 @@ const useRepayLoan = () => {
           return;
         }
 
-        const approveTx = await usdtContract.approve(lumenVaultContractAddress, bigIntRepayment, {
+        const approveTx = await cusdContract.approve(lumenVaultContractAddress, bigIntRepayment, {
           gasLimit: (estimatedGas * BigInt(120)) / BigInt(100),
           gasPrice: ethers.parseUnits("1", "gwei"), // Fallback
         });
@@ -88,7 +88,7 @@ const useRepayLoan = () => {
         const approveReceipt = await approveTx.wait();
         
         if (approveReceipt.status !== 1) {
-          toast.error("USDT approval failed");
+          toast.error("CUSD approval failed");
           return;
         }
 
@@ -141,7 +141,7 @@ const useRepayLoan = () => {
         }
       }
     },
-    [contract, address, chainId, usdtContract]
+    [contract, address, chainId, cusdContract]
   );
 };
 

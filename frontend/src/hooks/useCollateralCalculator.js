@@ -6,17 +6,17 @@ export function useCollateralCalculator() {
   const contract = useContractInstance(false);
 
   const calculateCollateral = useCallback(
-    async (usdtAmount) => {
+    async (cusdAmount) => {
       if (!contract) {
         throw new Error("Contract not initialized");
       }
 
       try {
-        const amountInWei = parseUnits(usdtAmount.toString(), 18);
+        const amountInWei = parseUnits(cusdAmount.toString(), 18);
 
         const collateralWei = await contract.getRequiredCollateralAmount(amountInWei);
 
-        const collateralFormatted = formatUnits(collateralWei, 18); // Assuming PTT has 18 decimals
+        const collateralFormatted = formatUnits(collateralWei, 18); 
 
         return collateralFormatted;
       } catch (error) {

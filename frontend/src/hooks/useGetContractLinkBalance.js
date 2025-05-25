@@ -3,7 +3,7 @@ import { useAppKitAccount, useAppKitNetwork } from "@reown/appkit/react";
 import { toast } from "react-toastify";
 import { ErrorDecoder } from "ethers-decode-error";
 import { Contract, formatUnits } from "ethers";
-import usdtTokenABI from "../ABI/usdtToken.json"
+import cusdTokenABI from "../ABI/cusdToken.json"
 import useSignerOrProvider from "./useSignerOrProvider";
 
 
@@ -11,15 +11,15 @@ const useGetContractLinkBalance = () => {
   const { address } = useAppKitAccount();
   const { chainId } = useAppKitNetwork();
   const { readOnlyProvider } = useSignerOrProvider()
-  const usdtTokenContractAddress = import.meta.env.VITE_CUSD_CONTRACT_ADDRESS;
+  const cusdTokenContractAddress = import.meta.env.VITE_CUSD_CONTRACT_ADDRESS;
   const lumenVaultContractAddress = import.meta.env.VITE_LUMEN_VAULT_CONTRACT_ADDRESS;
 
-  const usdtTokenContract = new Contract(usdtTokenContractAddress, usdtTokenABI, readOnlyProvider);
+  const cusdTokenContract = new Contract(cusdTokenContractAddress, cusdTokenABI, readOnlyProvider);
 
   return useCallback(
     async () => {
 
-      if (!usdtTokenContract) {
+      if (!cusdTokenContract) {
         toast.error("Contract not found");
         return;
       }
@@ -27,7 +27,7 @@ const useGetContractLinkBalance = () => {
 
       try {
 
-        const contractLinkBalance = await usdtTokenContract.balanceOf(String(lumenVaultContractAddress).toString());
+        const contractLinkBalance = await cusdTokenContract.balanceOf(String(lumenVaultContractAddress).toString());
 
         return formatUnits(String(contractLinkBalance), 18)
 
@@ -42,7 +42,7 @@ const useGetContractLinkBalance = () => {
         console.error("Decoded Error:", decodedError);
       }
     },
-    [address, chainId, usdtTokenContract]
+    [address, chainId, cusdTokenContract]
   );
 };
 

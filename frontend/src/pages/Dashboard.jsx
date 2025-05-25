@@ -192,7 +192,7 @@ const DashboardContent = () => {
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-gray-400 text-xs sm:text-sm font-medium">Total Value Locked</p>
-                <p className="text-2xl sm:text-3xl font-bold text-gray-100 mt-2">{totalValue.toFixed(2)} USDT</p>
+                <p className="text-2xl sm:text-3xl font-bold text-gray-100 mt-2">{totalValue.toFixed(2)} cUSD</p>
               </div>
               <div className="p-2 sm:p-3 bg-emerald-900/20 rounded-full">
                 <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 mr-1" />
